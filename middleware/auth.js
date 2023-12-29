@@ -6,7 +6,7 @@ exports.verify = (req, res, next) => {
 
   jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
     if (err) {
-      res.send("un Authorized");
+      res.json("un Authorized");
       return;
     }
     req.email = decoded.email;

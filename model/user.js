@@ -10,8 +10,18 @@ exports.createUser = async (firstName, lastName, email, password) => {
       picture:
         "https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?size=626&ext=jpg",
     });
-    await user.save();
-    console.log(user._id);
+    try {
+      await user.save();
+    } catch (err) {
+      if (err.name === "ValidationError") {
+        const errorMessage = err.message;
+        const fieldName = Object.keys(err.errors)[0];
+        const fieldErrorMessage = err.errors[fieldName].message;
+        return fieldErrorMessage;
+      } else {
+        return err;
+      }
+    }
     return "User Successfully SigUp!";
   } catch (err) {
     throw err;

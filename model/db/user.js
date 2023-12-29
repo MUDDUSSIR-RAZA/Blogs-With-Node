@@ -16,7 +16,7 @@ const userSchema = new Schema({
       message: "Email already exists!",
     },
   },
-  password: { type: String, required: true },
+  password: { type: String, required:  [true, "Please Enter a Password."] },
   picture: String,
   blogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
 });

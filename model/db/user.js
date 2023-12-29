@@ -2,11 +2,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  firstName: {type : String },
-  lastName: String,
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: {
     type: String,
     unique: true,
+    required: true,
     validate: {
       validator: async function (email) {
         const existingUser = await this.constructor.findOne({ email });
@@ -15,7 +16,7 @@ const userSchema = new Schema({
       message: "Email already exists!",
     },
   },
-  password: String,
+  password: { type: String, required: true },
   picture: String,
   blogs: [{ type: Schema.Types.ObjectId, ref: "Blog" }],
 });

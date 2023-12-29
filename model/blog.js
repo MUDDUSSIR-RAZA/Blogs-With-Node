@@ -31,8 +31,10 @@ exports.findBlog = async (id) => {
 
 exports.getBlog = async (_id) => {
   try {
-    const blog = await Blog.findOne({ _id }).populate("auhtor");
-    console.log(blog);
+    const blog = await Blog.findOne({ _id }).populate("author");
+    if (!blog) {
+      throw ("Blog not found");
+    }
     return blog;
   } catch (err) {
     throw err;

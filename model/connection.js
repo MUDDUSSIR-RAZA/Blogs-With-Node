@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-const url = "mongodb://127.0.0.1:27017/auth";
+const url = "mongodb://127.0.0.1:27017/BlogsApp";
 
-//mongoose.connect(url).then("connected");
-//module.exports = mongoose;
 
 exports.mongoose = async () => {
   try {

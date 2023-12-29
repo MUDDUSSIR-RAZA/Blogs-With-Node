@@ -1,5 +1,6 @@
 const express = require("express");
 const { createBlog, deleteBlog, editBlog } = require("../controllers/blogs");
+const { getBlog } = require("../model/blog");
 const router = express.Router();
 
 router.post("/publish", async (req, res) => {
@@ -15,7 +16,7 @@ router.post("/publish", async (req, res) => {
 
 router.get("/blog", async (req, res) => {
   try {
-    const resp = await createBlog(req.body.author , req.body.title, req.body.description);
+    const resp = await getBlog(req.body.id);
     res.status(200).json(resp);
   } catch (err) {
     console.log(err);

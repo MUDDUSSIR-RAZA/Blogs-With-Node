@@ -27,10 +27,12 @@ exports.login = async (email, password) => {
       throw "Wrong Password!";
     }
 
-    let token = jwt.sign({ email }, process.env.SECRET_KEY, {
-      expiresIn: "1h",
+    let userId = user._id
+
+    let token = jwt.sign({userId , email }, process.env.SECRET_KEY, {
+      expiresIn: "24h",
     });
-    return { token };
+    return token;
   } catch (err) {
     throw err;
   }

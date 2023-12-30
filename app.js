@@ -17,7 +17,10 @@ const public = path.join(process.cwd(), "public");
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(bodyparser.json());
 app.use(express.static(public));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Replace with the actual origin of your frontend
+  credentials: true, // Allow credentials (cookies)
+}));
 
 app.set("view engine", "ejs");
 app.set("views", "views");

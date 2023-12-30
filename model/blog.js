@@ -2,7 +2,6 @@ const Blog = require("./db/blog");
 const User = require("./db/user");
 
 exports.createBlog = async (author, title, description) => {
-  console.log(author);
   try {
     const blog = new Blog({
       author,
@@ -29,9 +28,21 @@ exports.findBlog = async (id) => {
   }
 };
 
-exports.getBlog = async (_id) => {
+exports.getUserBLogs = async (_id) => {
   try {
-    const blog = await Blog.findOne({ _id }).populate("author");
+    const blog = await User.findOne({ _id }).populate("blogs");
+    if (!blog) {
+      throw ("Blog not found");
+    }
+    return blog;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.getAllBLogs = async (_id) => {
+  try {
+    const blog = await Blog.find().populate("author");
     if (!blog) {
       throw ("Blog not found");
     }

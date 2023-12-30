@@ -2,14 +2,14 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 exports.verify = (req, res, next) => {
-  const { token } = req.headers;
+  const token = req.headers.cookie;
 
   jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
     if (err) {
-      res.json("un Authorized");
+      res.status(400).json("un Authorized");
       return;
     }
-    req.email = decoded.email;
-    next();
+    req.id = decoded.userId;
   });
+  next();
 };

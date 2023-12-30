@@ -17,9 +17,9 @@ exports.createUser = async (firstName, lastName, email, password) => {
         const errorMessage = err.message;
         const fieldName = Object.keys(err.errors)[0];
         const fieldErrorMessage = err.errors[fieldName].message;
-        return fieldErrorMessage;
+        throw fieldErrorMessage;
       } else {
-        return err;
+        throw err;
       }
     }
     return "User Successfully SigUp!";

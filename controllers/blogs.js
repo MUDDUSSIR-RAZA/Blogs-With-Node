@@ -3,7 +3,8 @@ const {
   findBlog,
   deleteBlog,
   editBlog,
-  getBlog,
+  getUserBLogs,
+  getAllBLogs,
 } = require("../model/blog");
 const {} = require("../model/user");
 
@@ -16,9 +17,18 @@ exports.createBlog = async (author, title, description) => {
   }
 };
 
-exports.getBlog = async (_id) => {
+exports.getUserBLogs = async (_id) => {
   try {
-    const resp = await getBlog(_id);
+    const resp = await getUserBLogs(_id);
+    return resp;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.getAllBLogs = async (_id) => {
+  try {
+    const resp = await getAllBLogs();
     return resp;
   } catch (err) {
     throw err;

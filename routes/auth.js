@@ -19,7 +19,7 @@ router.post("/signUp", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const resp = await login(req.body.email, req.body.password);
-    res.cookie("token", resp
+    res.status(200).cookie("token", resp
     // , {
     //   httpOnly: true,
     //   maxAge: 24 * 60 * 60 * 1000,

@@ -4,7 +4,8 @@ const { getUserBLogs } = require("../model/blog");
 const { verify } = require("../middleware/auth");
 const router = express.Router();
 
-router.post("/publish", async (req, res) => {
+router.post("/publish", async (req, res) => {  
+  console.log(req.body.author , req.body.title, req.body.description);
   try {
     const resp = await createBlog(req.body.author , req.body.title, req.body.description);
     res.status(200).json(resp);
@@ -15,7 +16,6 @@ router.post("/publish", async (req, res) => {
 
 
 router.get("/userBlogs", verify , async (req, res) => {
-  // console.log(req.id);
   try {
     const resp = await getUserBLogs(req.id);
     console.log(resp);

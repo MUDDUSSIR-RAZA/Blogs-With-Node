@@ -1,11 +1,10 @@
 const express = require("express");
-const { createBlog, deleteBlog, editBlog, getAllBLogs } = require("../controllers/blogs");
+const { createBlog, deleteBlog, editBlog, getAllBLogs, findBlog } = require("../controllers/blogs");
 const { getUserBLogs } = require("../model/blog");
 const { verify } = require("../middleware/auth");
 const router = express.Router();
 
 router.post("/publish", async (req, res) => {  
-  console.log(req.body.author , req.body.title, req.body.description);
   try {
     const resp = await createBlog(req.body.author , req.body.title, req.body.description);
     res.status(200).json(resp);
@@ -18,23 +17,30 @@ router.post("/publish", async (req, res) => {
 router.get("/userBlogs", verify , async (req, res) => {
   try {
     const resp = await getUserBLogs(req.id);
-    console.log(resp);
     res.status(200).json(resp);
   } catch (err) {
     res.status(400).json(err);
   }
-  // res.json()
 });
 
+router.post("/findBlog" , async (req, res) => {
+  console.log(req.body.userId);
+  try {
+    const resp = await findBlog(req.body.userId);
+    res.status(200).json(resp);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 
 router.get("/allBlogs", async (req, res) => {
-  // try {
-  //   const resp = await getAllBLogs();
-  //   res.status(200).json(resp);
-  // } catch (err) {
-  //   console.log(err);
-  //   res.status(400).json(err);
-  // }
+  try {
+    const resp = await getAllBLogs();
+    res.status(200).json(resp);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 });
 
 

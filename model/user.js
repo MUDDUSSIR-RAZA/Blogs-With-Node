@@ -14,7 +14,6 @@ exports.createUser = async (firstName, lastName, email, password) => {
       await user.save();
     } catch (err) {
       if (err.name === "ValidationError") {
-        const errorMessage = err.message;
         const fieldName = Object.keys(err.errors)[0];
         const fieldErrorMessage = err.errors[fieldName].message;
         throw fieldErrorMessage;
@@ -23,6 +22,51 @@ exports.createUser = async (firstName, lastName, email, password) => {
       }
     }
     return "User Successfully SigUp!";
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.updatePassword = async (email , password) => {
+  try {
+    const userPassword = {
+      password
+    };
+    const result = await User.findOneAndUpdate({ email }, userPassword, { new: true });
+    if (!result) {
+      throw "User not Found!";
+    }
+    return "Password Successfully Updated!";
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.updateName = async (email , firstName) => {
+  try {
+    const name = {
+      firstName
+    };
+    const result = await User.findOneAndUpdate({ email }, name, { new: true });
+    if (!result) {
+      throw "User not Found!";
+    }
+    return "Name Successfully Updated!";
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.updatePicture = async (email , picture) => {
+  try {
+    const pic = {
+      picture
+    };
+    const result = await User.findOneAndUpdate({ email }, pic, { new: true });
+    if (!result) {
+      throw "User not Found!";
+    }
+    return "Picture Successfully Updated!";
   } catch (err) {
     throw err;
   }

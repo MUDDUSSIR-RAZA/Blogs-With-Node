@@ -6,7 +6,6 @@ const {
   getUserBLogs,
   getAllBLogs,
 } = require("../model/blog");
-const {} = require("../model/user");
 
 exports.createBlog = async (author, title, description) => {
   try {
@@ -26,7 +25,16 @@ exports.getUserBLogs = async (_id) => {
   }
 };
 
-exports.getAllBLogs = async (_id) => {
+exports.findBlog = async (_id) => {
+  try {
+    const resp = await findBlog(_id);
+    return resp;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.getAllBLogs = async () => {
   try {
     const resp = await getAllBLogs();
     return resp;

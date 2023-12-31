@@ -20,9 +20,13 @@ exports.createBlog = async (author, title, description) => {
   }
 };
 
-exports.findBlog = async (id) => {
+exports.findBlog = async (_id) => {
   try {
-    return await Blog.findOne({ id });
+    const blog = await User.findOne({ _id }).populate("blogs");
+    if (!blog) {
+      throw ("Blog not found");
+    }
+    return blog;
   } catch (err) {
     throw err;
   }
@@ -66,14 +70,14 @@ exports.deleteBlog = async (_id) => {
   }
 };
 
-exports.editBlog = async (id, title, description) => {
+exports.editBlog = async (_id, title, description) => {
   try {
     const blog = {
       title,
       description,
       date: Date.now(),
     };
-    const result = await Blog.findOneAndUpdate({ id }, blog, { new: true });
+    const result = await Blog.findOneAndUpdate({ _id }, blog, { new: true });
     if (!result) {
       throw "Blog not Found!";
     }

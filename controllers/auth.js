@@ -1,4 +1,10 @@
-const { createUser, findUser, updatePassword, updateName, updatePicture } = require("../model/user");
+const {
+  createUser,
+  findUser,
+  updatePassword,
+  updateName,
+  updatePicture,
+} = require("../model/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../model/db/user");
@@ -39,16 +45,24 @@ exports.login = async (email, password) => {
   }
 };
 
-exports.updatePassword = async (email, password , newPassword) => {
-  const user = await findUser(email);
-    if (!user) {
-      throw "Wrong Email!";
-    }
+exports.findUser = async (email) => {
+  try {
+    return await findUser(email);
+  } catch (err) {
+    throw err;
+  }
+};
 
-    const result = await bcrypt.compare(password, user.password);
-    if (!result) {
-      throw "Wrong Password!";
-    }
+exports.updatePassword = async (email, password, newPassword) => {
+  const user = await findUser(email);
+  if (!user) {
+    throw "Wrong Email!";
+  }
+
+  const result = await bcrypt.compare(password, user.password);
+  if (!result) {
+    throw "Wrong Password!";
+  }
   try {
     const hashPass = await bcrypt.hash(newPassword, 12);
     return await updatePassword(email, hashPass);
@@ -59,10 +73,10 @@ exports.updatePassword = async (email, password , newPassword) => {
 
 exports.updateName = async (email, name) => {
   const user = await findUser(email);
-    if (!user) {
-      throw "Wrong Email!";
-    }
-    
+  if (!user) {
+    throw "Wrong Email!";
+  }
+
   try {
     return await updateName(email, name);
   } catch (err) {
@@ -72,10 +86,10 @@ exports.updateName = async (email, name) => {
 
 exports.updatePicture = async (email, picture) => {
   const user = await findUser(email);
-    if (!user) {
-      throw "Wrong Email!";
-    }
-    
+  if (!user) {
+    throw "Wrong Email!";
+  }
+
   try {
     return await updatePicture(email, picture);
   } catch (err) {

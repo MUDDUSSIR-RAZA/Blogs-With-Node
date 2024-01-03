@@ -1,14 +1,37 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const { findUser } = require('../controllers/auth');
 require("dotenv").config();
 
-exports.verify = (req, res, next) => {
-  const token = req.headers.cookie;
-  jwt.verify(token, process.env.SECRET_KEY, function (err, decoded) {
-    if (err) {
-      res.status(400).json("un Authorized");
+exports.verify = async (req, res, next) => {
+  try {
+    const token = req.headers.cookie;
+    const decoded = await verifyToken(token);
+
+    
+    req.id = decoded.userId;
+    req.email = decoded.email;
+
+    const user = await findUser(req.email);
+
+    if (!user) {
+      console.log("Authorization UnSuccessful!");
+      res.status(400).json("Authorization UnSuccessful!");
       return;
     }
-    req.id = decoded.userId;
-  });
-  next();
+    next();
+  } catch (err) {
+    res.status(401).json("Unauthorized");
+  }
 };
+
+function verifyToken(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(decoded);
+      }
+    });
+  });
+}
